@@ -1,3 +1,3 @@
 module.exports = {
-  ingestXlsx: require('./ingest-xlsx'),
+  ingestReport: require('./ingest-report'),
 };
