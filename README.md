@@ -12,4 +12,4 @@ To ingest a report, simply run the following command in your root directory.
 
 + ```node src/index.js --ingest <filename>```
 
-This will parse and load the file into the applications file-system for later use. If there are already files in the system, they will be deleted upon a new ingestion, and if any issues during ingestion, any changes will be rolled back and the program will exit.
+This will parse and load the file into the applications file-system for later use. If there are already files in the system, they will be deleted upon a new ingestion. If there is an issue during ingestion, changes will be rolled back and the program will exit.

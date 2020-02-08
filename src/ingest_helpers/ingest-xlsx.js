@@ -3,13 +3,24 @@
 const fs = require('fs');
 const xlsx = require('xlsx');
 const chalk = require('chalk');
-const {isEmpty} = require('lodash');
+const {isEmpty, forIn, forEach} = require('lodash');
 const {throwError, deleteReport} = require('../utils');
 
 module.exports = (report, reportExists, directory, file) => {
   const workBook = xlsx.readFile(report);
   const sheetNameList = workBook.SheetNames;
   const parsedReport = xlsx.utils.sheet_to_json(workBook.Sheets[sheetNameList]);
+
+  forEach(parsedReport, section => {
+    forIn(section, (value, key) => {
+      const numToString = value.toString();
+
+      // validate each numerical value in a report
+      if (key !== 'Section' && !numToString.match(/^-?\d*(\.\d+)?$/)) {
+        throwError({message: 'Error: Sales value in report is not a valid float'});
+      }
+    });
+  });
 
   if (reportExists) {
     deleteReport(directory, file);
