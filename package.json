@@ -1,0 +1,23 @@
+{
+  "name": "data-import-cli",
+  "version": "1.0.0",
+  "description": "Command-line tool used to ingest and parse excel and txt files",
+  "main": "index.js",
+  "scripts": {
+    "fix:prettier": "prettier --write \"src/**/*.js\"",
+    "test": "jest"
+  },
+  "author": "William Kontos",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "lodash": "^4.17.15",
+    "mime-types": "^2.1.26",
+    "minimist": "^1.2.0",
+    "rimraf": "^3.0.1",
+    "xlsx": "^0.15.5"
+  },
+  "devDependencies": {
+    "prettier": "^1.19.1"
+  }
+}
