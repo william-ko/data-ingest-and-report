@@ -28,6 +28,8 @@ if (argv.ingest) {
   try {
     ingestReport(report, reportExists, directory, file);
   } catch (error) {
+    // will rollback any changes if any reports were generated before error occurance
+    // and if the error wasnt a `no such file` error
     if (reportExists && error.code !== 'ENOENT') {
       deleteReport(directory, file);
     }
