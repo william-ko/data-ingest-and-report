@@ -5,6 +5,7 @@ const path = require('path');
 const mime = require('mime-types');
 const argv = require('minimist')(process.argv.slice(2));
 const {ingestReport} = require('./ingest_helpers');
+const {validateSummaryArgs} = require('./summary_helpers');
 const {throwError, deleteReport} = require('./utils');
 
 let reportExists;
@@ -22,7 +23,7 @@ if (argv.ingest) {
       throwError({message: 'Error: Only .xlsx & .txt files can be ingested'});
     }
 
-    const directory = './ingested_sales_reports';
+    const directory = '.reports/ingested_reports';
     const file = path.basename(report).split('.')[0];
 
     reportExists = fs.existsSync(path.join(directory, `${file}.json`));
@@ -38,5 +39,6 @@ if (argv.ingest) {
     throwError({message: error});
   }
 } else if (argv.summary) {
-  console.log;
+  validateSummaryArgs(argv._, argv.summary);
+
 }

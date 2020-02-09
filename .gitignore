@@ -3,5 +3,5 @@ build
 npm-debug.log
 .env
 .DS_Store
-ingested_sales_reports/*
-!ingested_sales_reports/.gitkeep 
+reports/ingested_reports/*
+!reports/ingested_reports/.gitkeep 
