@@ -19,7 +19,7 @@ module.exports = (report, reportExists, directory, file) => {
   }
 
   if (!isEmpty(parsedReport)) {
-    fs.writeFile(`./ingested_sales_reports/${file}.json`, JSON.stringify(parsedReport), 'utf-8', error => {
+    fs.writeFile(`./reports/ingested_reports/${file}.json`, JSON.stringify(parsedReport), 'utf-8', error => {
       if (error) {
         throwError({message: error});
       }
