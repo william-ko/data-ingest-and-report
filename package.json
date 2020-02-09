@@ -6,7 +6,7 @@
   "scripts": {
     "ingest": "node index.js --ingest",
     "summary": "node index.js --summary",
-    "fix:prettier": "prettier --write \"src/**/*.js\"",
+    "fix:prettier": "prettier --write \"**/*.js\"",
     "test": "jest"
   },
   "author": "William Kontos",
