@@ -1,5 +1,5 @@
 const {forEach, forIn} = require('lodash');
-const throwError = require('./error-handler');
+const {throwError} = require('../utils');
 
 module.exports = parsedReport => {
   forEach(parsedReport, section => {

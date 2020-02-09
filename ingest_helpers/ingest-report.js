@@ -4,7 +4,8 @@ const fs = require('fs');
 const xlsx = require('xlsx');
 const chalk = require('chalk');
 const {isEmpty} = require('lodash');
-const {throwError, deleteReport, validateReportValues} = require('../utils');
+const validateReportValues = require('./validate-report-values');
+const {throwError, deleteReport} = require('../utils');
 
 module.exports = (report, reportExists, directory, file) => {
   const workBook = xlsx.readFile(report);
