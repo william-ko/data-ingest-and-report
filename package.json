@@ -4,6 +4,8 @@
   "description": "Command-line tool used to ingest and parse excel and txt files",
   "main": "index.js",
   "scripts": {
+    "ingest": "node index.js --ingest",
+    "summary": "node index.js --summary",
     "fix:prettier": "prettier --write \"src/**/*.js\"",
     "test": "jest"
   },
@@ -14,7 +16,6 @@
     "lodash": "^4.17.15",
     "mime-types": "^2.1.26",
     "minimist": "^1.2.0",
-    "rimraf": "^3.0.1",
     "xlsx": "^0.15.5"
   },
   "devDependencies": {
