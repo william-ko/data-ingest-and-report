@@ -4,3 +4,4 @@ npm-debug.log
 .env
 .DS_Store
 ingested_sales_reports/*
+!ingested_sales_reports/.gitkeep 
