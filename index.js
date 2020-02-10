@@ -1,5 +1,6 @@
 'use strict';
 
+const fs = require('fs');
 const path = require('path');
 const mime = require('mime-types');
 const argv = require('minimist')(process.argv.slice(2));
@@ -43,4 +44,10 @@ if (argv.ingest) {
   } else {
     throwError({message: 'Data not available'});
   }
+} else if (argv.exit) {
+  fs.readdirSync(directory).forEach(report => {
+    if (report !== '.gitkeep') {
+      fs.unlinkSync(path.join(directory, report));
+    }
+  });
 }
