@@ -12,8 +12,7 @@ const {throwError} = require('../utils');
  */
 
 class Summarizer {
-
-  /** 
+  /**
    * @param args - the command line arguments
    * @param directory - the directory of ingested files
    * @param dirname - the absolute path to the file to be processed

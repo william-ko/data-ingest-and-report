@@ -6,6 +6,7 @@
   "scripts": {
     "ingest": "node index.js --ingest",
     "summary": "node index.js --summary",
+    "generate_report": "node index.js --generate_report",
     "exit": "node index.js --exit",
     "fix:prettier": "prettier --write \"**/*.js\"",
     "test": "jest"
@@ -14,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^3.0.0",
-    "json-2-csv": "^3.5.9",
+    "csv-stringify": "^5.3.6",
     "lodash": "^4.17.15",
     "mime-types": "^2.1.26",
     "minimist": "^1.2.0",
