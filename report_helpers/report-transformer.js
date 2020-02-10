@@ -11,7 +11,19 @@ const mime = require('mime-types');
 const stringify = require('csv-stringify');
 const validateReportValues = require('./validate-report-values');
 
+/**
+ * Takes a report passed in from the command line and transforms it into JSON
+ * exposing a group of methods for operations on the data
+ *
+ * @class ReportTransformer
+ */
+
 class ReportTransfomer {
+  /**
+   * @param report - the xlsx or txt report passed in from cli
+   * @param directory - the directory of ingested files
+   */
+
   constructor(report, directory) {
     this.report = report;
     this.directory = directory;
@@ -20,6 +32,11 @@ class ReportTransfomer {
     this.parsedReport;
   }
 
+  /**
+   * Parses the report, stamps itself with the JSON, and returns the instance
+   *
+   * @access public
+   */
   buildJSONReport() {
     const workBook = xlsx.readFile(this.report);
     this.parsedReport = xlsx.utils.sheet_to_json(workBook.Sheets[workBook.SheetNames]);
@@ -27,6 +44,12 @@ class ReportTransfomer {
     return this;
   }
 
+  /**
+   * passes the parsed report through a validator, upon passing, writes it to the fs as a JSON file
+   *
+   * @access public
+   * @param reportExists - boolean indicatiing whether or not the given report exists in the fs
+   */
   ingestReport(reportExists) {
     validateReportValues(this.parsedReport);
 
@@ -43,6 +66,11 @@ class ReportTransfomer {
     });
   }
 
+  /**
+   * Creates a CSV file with custom columns given a xlsx or txt report file 
+   *
+   * @access public
+   */
   generateCSV() {
     const input = [];
     const skus = [];
@@ -79,6 +107,12 @@ class ReportTransfomer {
     this._buildCSVFile(input);
   }
 
+  /**
+   * Uses the csv-stringify Node module to structure the file and write it to the root dir of the fs
+   *
+   * @access private
+   * @param input - the columns and rows of the csv as nested arrays
+   */
   _buildCSVFile(input) {
     stringify(
       input,
