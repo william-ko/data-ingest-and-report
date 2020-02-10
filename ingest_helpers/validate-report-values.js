@@ -1,3 +1,5 @@
+'use strict';
+
 const {forEach, forIn} = require('lodash');
 const {throwError} = require('../utils');
 

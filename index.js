@@ -1,14 +1,13 @@
 'use strict';
 
-const fs = require('fs');
 const path = require('path');
 const mime = require('mime-types');
 const argv = require('minimist')(process.argv.slice(2));
 const {ingestReport} = require('./ingest_helpers');
-const {validateSummaryArgs} = require('./summary_helpers');
-const {throwError, deleteReport} = require('./utils');
+const {validateSummaryArgs, Summarizer} = require('./summary_helpers');
+const {throwError, deleteReport, ReportCheck} = require('./utils');
 
-let reportExists;
+const directory = './reports/ingested_reports';
 const acceptedMimeTypes = [
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   'text/plain; charset=utf-8',
@@ -23,22 +22,25 @@ if (argv.ingest) {
       throwError({message: 'Error: Only .xlsx & .txt files can be ingested'});
     }
 
-    const directory = '.reports/ingested_reports';
     const file = path.basename(report).split('.')[0];
-
-    reportExists = fs.existsSync(path.join(directory, `${file}.json`));
+    const reportExists = new ReportCheck(directory, file).reportExists();
 
     ingestReport(report, reportExists, directory, file);
   } catch (error) {
-    // will rollback changes if any took place
-    // guards against files being deleted if error and no changes took place
+    // guard against files being deleted if error and no changes took place
     if (reportExists && error.code !== 'ENOENT') {
-      deleteReport(directory, file);
+      deleteReport(directory, file, error);
     }
 
     throwError({message: error});
   }
 } else if (argv.summary) {
-  validateSummaryArgs(argv._, argv.summary);
+  const summaryArgs = validateSummaryArgs(argv._, argv.summary);
+  const reportsInSystem = new ReportCheck(directory).reportsExistInDir();
 
+  if (reportsInSystem) {
+    new Summarizer(summaryArgs, directory, __dirname).summarize();
+  } else {
+    throwError({message: 'Data not available'});
+  }
 }
