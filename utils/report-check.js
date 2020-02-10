@@ -10,8 +10,7 @@ const path = require('path');
  */
 
 class ReportCheck {
-
-  /** 
+  /**
    * @param directory - the directory of ingested files
    * @param file - the current file being ingested
    */
