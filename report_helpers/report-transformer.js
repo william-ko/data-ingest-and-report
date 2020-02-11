@@ -1,9 +1,8 @@
 'use-strict';
 
-const {forIn, uniq} = require('lodash');
+const {forIn} = require('lodash');
 const {throwError, deleteReport} = require('../utils');
 
-const os = require('os');
 const fs = require('fs');
 const xlsx = require('xlsx');
 const path = require('path');
@@ -94,24 +93,21 @@ class ReportTransfomer {
           year = key.split('-')[0];
           month = key.split('-')[1].split(' ')[0];
         }
-        input.push([
-          year,
-          month,
-          item['SKU'],
-          item['Section'],
-          item[`${year}-${month} Units`],
-          item[`${year}-${month} Gross Sales`],
-        ]);
+
+        if (year && month) {
+          input.push([
+            year,
+            month,
+            item['SKU'],
+            item['Section'],
+            item[`${year}-${month} Units`],
+            item[`${year}-${month} Gross Sales`],
+          ]);
+        }
       });      
     });
 
-    const filteredInput = input.filter(item => {
-      if (item[0]) {
-        return item;
-      }
-    });
-
-    this._buildCSVFile(filteredInput);
+    this._buildCSVFile(input);
   }
 
   /**
