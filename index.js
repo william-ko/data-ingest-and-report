@@ -1,10 +1,10 @@
 'use strict';
 
+const {exit} = require('./exit_helpers');
 const {ReportTransformer} = require('./report_helpers');
 const {throwError, deleteReport, ReportCheck} = require('./utils');
 const {validateSummaryArgs, Summarizer} = require('./summary_helpers');
 
-const fs = require('fs');
 const path = require('path');
 const argv = require('minimist')(process.argv.slice(2));
 
@@ -59,9 +59,5 @@ if (argv.ingest) {
 
   reportInstance.generateCSV();
 } else if (argv.exit) {
-  fs.readdirSync(directory).forEach(report => {
-    if (report !== '.gitkeep') {
-      fs.unlinkSync(path.join(directory, report));
-    }
-  });
+  exit([directory, __dirname]);
 }
