@@ -1,8 +1,9 @@
 'use-strict';
 
-const {forIn} = require('lodash');
+const {forIn, uniq} = require('lodash');
 const {throwError, deleteReport} = require('../utils');
 
+const os = require('os');
 const fs = require('fs');
 const xlsx = require('xlsx');
 const path = require('path');
@@ -67,44 +68,50 @@ class ReportTransfomer {
   }
 
   /**
+   * Sorts the data by name
+   *
+   * @access private
+   */
+  _sortReportData(parsedReport) {
+    return parsedReport.sort((a, b) => (a['Section'] > b['Section'] ? 1 : b['Section'] > a['Section'] ? -1 : 0));
+  }
+
+  /**
    * Creates a CSV file with custom columns given a xlsx or txt report file
    *
    * @access public
    */
   generateCSV() {
     const input = [];
-    const skus = [];
-    const sections = [];
-    const units = [];
-    const sales = [];
+    const sortedData = this._sortReportData(this.parsedReport);
 
-    this.parsedReport.forEach(item => {
+    sortedData.forEach(item => {
       forIn(item, (value, key) => {
-        if (key.includes('-')) {
-          const year = key.split('-')[0];
-          const month = key.split('-')[1].split(' ')[0];
+        let year;
+        let month;
 
-          input.push([year, month]);
-          if (key.includes('Units')) {
-            units.push(value);
-          } else if (key.includes('Sales')) {
-            sales.push(value);
-          }
+        if (key.includes('Sales')) {
+          year = key.split('-')[0];
+          month = key.split('-')[1].split(' ')[0];
         }
-      });
-
-      skus.push(item['SKU']);
-      sections.push(item['Section']);
+        input.push([
+          year,
+          month,
+          item['SKU'],
+          item['Section'],
+          item[`${year}-${month} Units`],
+          item[`${year}-${month} Gross Sales`],
+        ]);
+      });      
     });
 
-    input.forEach((row, index) => {
-      row.push(skus[index]);
-      row.push(sections[index]);
-      row.push(units[index]);
-      row.push(sales[index]);
+    const filteredInput = input.filter(item => {
+      if (item[0]) {
+        return item;
+      }
     });
 
-    this._buildCSVFile(input);
+    this._buildCSVFile(filteredInput);
   }
 
   /**

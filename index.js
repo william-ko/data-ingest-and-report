@@ -17,6 +17,8 @@ const acceptedMimeTypes = [
 ];
 
 if (argv.ingest) {
+  /** Ingest command block **/
+
   try {
     const initialReport = argv.ingest.includes('/') ? argv.ingest : path.join(__dirname, argv.ingest);
     const reportInstance = new ReportTransformer(initialReport, directory).buildJSONReport();
@@ -38,6 +40,8 @@ if (argv.ingest) {
     throwError({message: error});
   }
 } else if (argv.summary) {
+  /** Summary command block **/
+
   const summaryArgs = validateSummaryArgs(argv._, argv.summary);
   const reportsInSystem = new ReportCheck(directory).reportsExistInDir();
 
@@ -47,6 +51,8 @@ if (argv.ingest) {
     throwError({message: 'Data not available'});
   }
 } else if (argv.generate_report) {
+  /** Generate Report command block **/
+
   const initialReport = argv.generate_report.includes('/')
     ? argv.generate_report
     : path.join(__dirname, argv.generate_report);
@@ -59,5 +65,7 @@ if (argv.ingest) {
 
   reportInstance.generateCSV();
 } else if (argv.exit) {
+  /** Exit command block **/
+
   exit([directory, __dirname]);
 }
