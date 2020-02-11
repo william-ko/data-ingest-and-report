@@ -45,7 +45,7 @@ class ReportTransfomer {
   }
 
   /**
-   * passes the parsed report through a validator, upon passing, writes it to the fs as a JSON file
+   * Passes the parsed report through a validator, upon passing, writes it to the fs as a JSON file
    *
    * @access public
    * @param reportExists - boolean indicatiing whether or not the given report exists in the fs
@@ -67,7 +67,7 @@ class ReportTransfomer {
   }
 
   /**
-   * Creates a CSV file with custom columns given a xlsx or txt report file 
+   * Creates a CSV file with custom columns given a xlsx or txt report file
    *
    * @access public
    */
