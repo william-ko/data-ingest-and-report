@@ -1,9 +1,11 @@
 'use strict';
 
+const {throwError} = require('../utils');
+const {combineSKUs} = require('../utils');
+const {flatMap, without, get, forIn, isArray} = require('lodash');
+
 const fs = require('fs');
 const chalk = require('chalk');
-const {flatMap, without, get, forIn, isArray} = require('lodash');
-const {throwError} = require('../utils');
 
 /**
  * Creates a summary from the reports with the given arguments
@@ -56,7 +58,10 @@ class Summarizer {
     );
 
     this._errorIfEmpty(reports);
-    this._getRequestedCategory(reports, this.args[0]);
+
+    const consolidatedReport = combineSKUs(reports);
+
+    this._getRequestedCategory(consolidatedReport, this.args[0]);
   }
 
   /**
