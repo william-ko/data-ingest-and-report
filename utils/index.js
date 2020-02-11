@@ -1,7 +1,9 @@
 const ReportCheck = require('./report-check');
 
 module.exports = {
+  ReportCheck,
+  combineSKUs: require('./combine-skus'),
   throwError: require('./error-handler'),
   deleteReport: require('./delete-report'),
-  ReportCheck,
+  sortReportData: require('./sort-report-data'),
 };

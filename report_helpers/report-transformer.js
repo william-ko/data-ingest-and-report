@@ -1,6 +1,7 @@
 'use-strict';
 
 const {forIn} = require('lodash');
+const {sortReportData} = require('../utils');
 const {throwError, deleteReport} = require('../utils');
 
 const fs = require('fs');
@@ -67,22 +68,13 @@ class ReportTransfomer {
   }
 
   /**
-   * Sorts the data by name
-   *
-   * @access private
-   */
-  _sortReportData(parsedReport) {
-    return parsedReport.sort((a, b) => (a['Section'] > b['Section'] ? 1 : b['Section'] > a['Section'] ? -1 : 0));
-  }
-
-  /**
    * Creates a CSV file with custom columns given a xlsx or txt report file
    *
    * @access public
    */
   generateCSV() {
     const input = [];
-    const sortedData = this._sortReportData(this.parsedReport);
+    const sortedData = sortReportData(this.parsedReport, 'Section');
 
     sortedData.forEach(item => {
       forIn(item, (value, key) => {
@@ -104,7 +96,7 @@ class ReportTransfomer {
             item[`${year}-${month} Gross Sales`],
           ]);
         }
-      });      
+      });
     });
 
     this._buildCSVFile(input);
