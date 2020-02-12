@@ -61,13 +61,13 @@ class ReportTransfomer {
       deleteReport(this.directory, this.file);
     }
 
-    fs.writeFile(`${this.directory}/${this.file}.json`, JSON.stringify(this.parsedReport), 'utf-8', error => {
-      if (error) {
-        throwError({message: error});
-      }
+    try {
+      fs.writeFileSync(`${this.directory}/${this.file}.json`, JSON.stringify(this.parsedReport), 'utf-8');
+    } catch (error) {
+      throwError({message: error});
+    }
 
-      console.log(chalk.green('Success'));
-    });
+    console.log(chalk.green('Success'));
   }
 
   /**
@@ -123,13 +123,11 @@ class ReportTransfomer {
           throwError({message: error});
         }
 
-        fs.writeFile(`${this.file}.csv`, output, error => {
-          if (error) {
-            throwError({message: error});
-          }
-
-          console.log(chalk.blueBright('csv report saved in projects root directory'));
-        });
+        try {
+          fs.writeFileSync(`${this.file}.csv`, output);
+        } catch (error) {
+          throwError({message: error});
+        }
       }
     );
   }
