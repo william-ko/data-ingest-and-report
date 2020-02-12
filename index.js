@@ -2,7 +2,7 @@
 
 const {exit} = require('./exit_helpers');
 const {ReportTransformer} = require('./report_helpers');
-const {throwError, deleteReport, ReportCheck} = require('./utils');
+const {throwError, deleteReport, ReportCheck, getIngestedReports} = require('./utils');
 const {validateSummaryArgs, Summarizer} = require('./summary_helpers');
 
 const path = require('path');
@@ -53,17 +53,26 @@ if (argv.ingest) {
 } else if (argv.generate_report) {
   /** Generate Report command block **/
 
-  const initialReport = argv.generate_report.includes('/')
-    ? argv.generate_report
-    : path.join(__dirname, argv.generate_report);
+  const reportsInSystem = new ReportCheck(directory).reportsExistInDir();
 
-  const reportInstance = new ReportTransformer(initialReport, directory).buildJSONReport();
+  if (argv.generate_report.split('.')[1]) {
+    const initialReport = argv.generate_report.includes('/')
+      ? argv.generate_report
+      : path.join(__dirname, argv.generate_report);
 
-  if (!acceptedMimeTypes.includes(reportInstance.mimeType)) {
-    throwError({message: 'Error: Only .xlsx & .txt files can be ingested'});
+    const reportInstance = new ReportTransformer(initialReport, directory).buildJSONReport();
+
+    if (!acceptedMimeTypes.includes(reportInstance.mimeType)) {
+      throwError({message: 'Error: Only .xlsx & .txt files can be ingested'});
+    }
+
+    reportInstance.generateCSV();
+  } else if (reportsInSystem) {
+    const fileName = argv.generate_report;
+    const ingestedReports = getIngestedReports(directory, __dirname);
+
+    new ReportTransformer('', directory, fileName, ingestedReports).generateCSV();
   }
-
-  reportInstance.generateCSV();
 } else if (argv.exit) {
   /** Exit command block **/
 

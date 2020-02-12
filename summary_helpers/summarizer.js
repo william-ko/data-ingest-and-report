@@ -1,8 +1,7 @@
 'use strict';
 
-const {throwError} = require('../utils');
-const {combineSKUs} = require('../utils');
 const {flatMap, without, get, forIn, isArray} = require('lodash');
+const {throwError, getIngestedReports, combineSKUs} = require('../utils');
 
 const fs = require('fs');
 const chalk = require('chalk');
@@ -48,20 +47,10 @@ class Summarizer {
    */
   summarize() {
     // flatten the mapped results and remove any undefined values
-    const reports = without(
-      flatMap(fs.readdirSync(this.directory), report => {
-        if (report !== '.gitkeep') {
-          return JSON.parse(fs.readFileSync(`${this.dirname}/reports/ingested_reports/${report}`, 'utf8'));
-        }
-      }),
-      undefined
-    );
+    const reports = getIngestedReports(this.directory, this.dirname);
 
     this._errorIfEmpty(reports);
-
-    const consolidatedReport = combineSKUs(reports);
-
-    this._getRequestedCategory(consolidatedReport, this.args[0]);
+    this._getRequestedCategory(combineSKUs(reports), this.args[0]);
   }
 
   /**
