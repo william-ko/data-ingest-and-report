@@ -49,7 +49,7 @@ This will delete all files ingested or created during use.
 
 #### Testing
 
-The integration tests in this project are somewhat rudimentary for now, but are robust enough to guide further development and solidify core functionality:
+The integration tests in this project are somewhat rudimentary for now, but are robust enough to guide further development and solidify core functionality. An HTML test-report is automatically generated when tests are ran, it can be found in `test-reports`. To test, run:
 
 - `npm run test`
 
