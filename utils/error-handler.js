@@ -1,8 +1,8 @@
 'use strict';
-
+const {log} = console;
 const chalk = require('chalk');
 
 module.exports = error => {
-  console.error(chalk.red(error.message));
+  log(chalk.red(error.message));
   process.exit();
 };

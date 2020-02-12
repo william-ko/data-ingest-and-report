@@ -1,9 +1,8 @@
 'use strict';
-
-const {flatMap, without, get, forIn, isArray} = require('lodash');
+const {log} = console;
+const {forIn, isArray} = require('lodash');
 const {throwError, getIngestedReports, combineSKUs} = require('../utils');
 
-const fs = require('fs');
 const chalk = require('chalk');
 
 /**
@@ -62,7 +61,7 @@ class Summarizer {
    */
   _getRequestedCategory(reports, category) {
     const filteredReports = reports.filter(report => {
-      const section = get(report, 'Section');
+      const section = report['Section'];
 
       if (section === category) {
         return report;
@@ -87,7 +86,7 @@ class Summarizer {
     filteredReports.forEach(report => {
       forIn(report, (value, key) => {
         if (key.includes(yearAndMonth)) {
-          key.includes('Gross Sales') ? (totalGrossSales += value) : (totalUnits += value);
+          key.includes('Sales') ? (totalGrossSales += value) : (totalUnits += value);
         }
       });
     });
@@ -98,7 +97,7 @@ class Summarizer {
       2
     )}`;
 
-    console.log(chalk.blueBright(completeSummary));
+    log(chalk.blueBright(completeSummary));
 
     return completeSummary;
   }
