@@ -93,14 +93,14 @@ class Summarizer {
     });
 
     this._errorIfEmpty(totalUnits);
-  
-    const completeSummary = `${this.args[0]} - Total Units: ${totalUnits}, Total Gross Sales: ${totalGrossSales.toFixed(2)}`
 
-    console.log(
-      chalk.blueBright(completeSummary)
-    );
+    const completeSummary = `${this.args[0]} - Total Units: ${totalUnits}, Total Gross Sales: ${totalGrossSales.toFixed(
+      2
+    )}`;
 
-    return completeSummary
+    console.log(chalk.blueBright(completeSummary));
+
+    return completeSummary;
   }
 }
 
