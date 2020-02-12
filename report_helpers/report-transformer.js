@@ -1,5 +1,5 @@
 'use-strict';
-
+const {log} = console;
 const {forIn} = require('lodash');
 const {throwError, deleteReport, sortReportData, combineSKUs} = require('../utils');
 
@@ -67,7 +67,7 @@ class ReportTransfomer {
       throwError({message: error});
     }
 
-    console.log(chalk.green('Success'));
+    log(chalk.green('Success'));
   }
 
   /**
@@ -80,7 +80,7 @@ class ReportTransfomer {
     const sortedData = sortReportData(combineSKUs(this.parsedReport), 'Section');
 
     sortedData.forEach(item => {
-      forIn(item, (value, key) => {
+      forIn(item, (_, key) => {
         let year;
         let month;
 

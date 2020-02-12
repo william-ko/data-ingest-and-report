@@ -1,5 +1,5 @@
-const {ReportTransformer} = require('../../report_helpers');
 const {ReportCheck, deleteReport} = require('../../utils');
+const {ReportTransformer} = require('../../report_helpers');
 
 const directory = './reports/ingested_reports';
 const report = './reports/test_reports/201904.xlsx';

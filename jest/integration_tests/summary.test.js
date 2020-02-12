@@ -1,5 +1,4 @@
 const {Summarizer} = require('../../summary_helpers');
-
 const directory = './reports/ingested_reports';
 
 describe('Summary', () => {

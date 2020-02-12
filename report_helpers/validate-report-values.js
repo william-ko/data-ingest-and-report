@@ -1,11 +1,11 @@
 'use strict';
 
-const {forEach, forIn, isEmpty} = require('lodash');
+const {forIn, isEmpty} = require('lodash');
 const {throwError} = require('../utils');
 
 module.exports = parsedReport => {
   if (!isEmpty(parsedReport)) {
-    forEach(parsedReport, section => {
+    parsedReport.forEach(section => {
       forIn(section, (value, key) => {
         const numToString = value.toString();
 
