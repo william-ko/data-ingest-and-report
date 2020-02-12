@@ -47,6 +47,14 @@ So, to clear the current state (reset the file-system):
 
 This will delete all files ingested or created during use.
 
+#### Testing
+
+The integration tests in this project are somewhat rudimentary for now, but are robust enough to guide further development and solidify core functionality:
+
+- `npm run test`
+
+The exit function is not tested nor is it used to tear down the tests. So to clear the app of any unwanted data after testing, manually run the `exit` command. Tear-down functionality is currently being worked on.
+
 ------------
 
 ### Design Summary

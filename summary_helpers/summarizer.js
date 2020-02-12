@@ -50,7 +50,7 @@ class Summarizer {
     const reports = getIngestedReports(this.directory, this.dirname);
 
     this._errorIfEmpty(reports);
-    this._getRequestedCategory(combineSKUs(reports), this.args[0]);
+    return this._getRequestedCategory(combineSKUs(reports), this.args[0]);
   }
 
   /**
@@ -70,7 +70,7 @@ class Summarizer {
     });
 
     this._errorIfEmpty(filteredReports);
-    this._calculateSummary(filteredReports);
+    return this._calculateSummary(filteredReports);
   }
 
   /**
@@ -93,10 +93,14 @@ class Summarizer {
     });
 
     this._errorIfEmpty(totalUnits);
+  
+    const completeSummary = `${this.args[0]} - Total Units: ${totalUnits}, Total Gross Sales: ${totalGrossSales.toFixed(2)}`
 
     console.log(
-      chalk.blueBright(`${this.args[0]} - Total Units: ${totalUnits}, Total Gross Sales: ${totalGrossSales.toFixed(2)}`)
+      chalk.blueBright(completeSummary)
     );
+
+    return completeSummary
   }
 }
 
