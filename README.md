@@ -29,11 +29,13 @@ This will print a summary from the ingested reports for the given arguments:
 
 #### Generate Report
 
-To generate a consolidated CSV file:
+To generate a consolidated CSV file by either passing in an existing xlsx or from ingested data:
 
 - `npm run generate_report <filename>`
 
-This will write a custom CSV file to the root directory of the fs.
+This will write a consolidated CSV file to the root directory of the fs. 
+
+note: `<filename>` can either be an excel file (`foo.xlsx`) or an arbitray file name of the users choosing, which will use the ingested data to generate the CSV and name it by the argument.
 
 #### Exit
 

@@ -1,8 +1,7 @@
 'use-strict';
 
 const {forIn} = require('lodash');
-const {sortReportData} = require('../utils');
-const {throwError, deleteReport} = require('../utils');
+const {throwError, deleteReport, sortReportData, combineSKUs} = require('../utils');
 
 const fs = require('fs');
 const xlsx = require('xlsx');
@@ -23,14 +22,18 @@ class ReportTransfomer {
   /**
    * @param report - the xlsx or txt report passed in from cli
    * @param directory - the directory of ingested files
+   * @param file - optional param for a custom file name
+   * @param parsedReport - optional parameter for defining JSON reports
    */
 
-  constructor(report, directory) {
+  constructor(report, directory, file, parsedReport) {
     this.report = report;
     this.directory = directory;
     this.mimeType = mime.contentType(path.extname(report));
-    this.file = path.basename(report).split('.')[0];
-    this.parsedReport;
+
+    /** optional parameters */
+    this.file = file || path.basename(report).split('.')[0];
+    this.parsedReport = parsedReport || undefined;
   }
 
   /**
@@ -68,13 +71,13 @@ class ReportTransfomer {
   }
 
   /**
-   * Creates a CSV file with custom columns given a xlsx or txt report file
+   * Creates a consolidated CSV file given a xlsx, txt or arbitary file name to used when building CSV from ingested data
    *
    * @access public
    */
   generateCSV() {
     const input = [];
-    const sortedData = sortReportData(this.parsedReport, 'Section');
+    const sortedData = sortReportData(combineSKUs(this.parsedReport), 'Section');
 
     sortedData.forEach(item => {
       forIn(item, (value, key) => {
