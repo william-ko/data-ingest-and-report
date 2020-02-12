@@ -7,3 +7,4 @@ reports/ingested_reports/*
 !reports/ingested_reports/.gitkeep 
 test-reports
 **.csv
+requirements.txt
