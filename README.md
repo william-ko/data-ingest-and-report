@@ -57,12 +57,6 @@ The exit function is not tested nor is it used to tear down the tests. So to cle
 
 ------------
 
-### Design Summary
-
-This application's design pattern is modeled as such to try and represent a natural top-to-bottom flow (input to output as evenly and unperturbed as possible). This being a small application, I figured that this pattern would best produce readable and intuitive code. 
-
-The decision to make use of the project's file-system as opposed to a server to maintain state came mostly from the needs of the user. The files are the only thing to be stored, and what better way than as actual files in the system that the user, if needed, can control. Also, I feel with data being written to organized files, it can be visualized and reasoned about much more cleary.
-
 ##### A Concise Overview of the Functionality...
 
 The access point of the program reads the command-line arguments and decides what block to execute, contigent upon such. These blocks use a host of helpers to perform the given task. Each task's core functionality is encapsulted in a well documented class.
